@@ -1,0 +1,1129 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduPortal Global - Empowering Global Education & Campus Life</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#eef2ff',
+                            100: '#e0e7ff',
+                            500: '#6366f1',
+                            600: '#4f46e5',
+                            700: '#4338ca',
+                            900: '#312e81',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .glass-card {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(229, 231, 235, 0.8);
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen flex flex-col justify-between">
+
+    <!-- Navigation Header -->
+    <header class="sticky top-0 z-40 bg-white/90 backdrop-blur-md border-b border-slate-200 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <!-- Logo -->
+                <div class="flex items-center space-x-3 cursor-pointer" onclick="switchTab('home')">
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-600 to-violet-500 flex items-center justify-center text-white font-bold text-xl shadow-md shadow-indigo-200">
+                        <i class="fa-solid fa-graduation-cap"></i>
+                    </div>
+                    <div>
+                        <span class="text-xl font-extrabold tracking-tight bg-gradient-to-r from-slate-900 via-indigo-950 to-indigo-700 bg-clip-text text-transparent">EduPortal</span>
+                        <span class="text-xs text-indigo-600 font-semibold block -mt-1 tracking-wider uppercase">Global University</span>
+                    </div>
+                </div>
+
+                <!-- Desktop Navigation Links -->
+                <nav class="hidden md:flex space-x-1 lg:space-x-2 text-sm font-medium">
+                    <button onclick="switchTab('home')" id="nav-home" class="nav-btn px-3 py-2 rounded-lg transition-colors text-indigo-600 bg-indigo-50 font-semibold">
+                        <i class="fa-solid fa-house mr-1.5 text-xs"></i>Home
+                    </button>
+                    <button onclick="switchTab('courses')" id="nav-courses" class="nav-btn px-3 py-2 rounded-lg text-slate-600 hover:text-indigo-600 hover:bg-slate-100 transition-colors">
+                        <i class="fa-solid fa-book-open mr-1.5 text-xs"></i>Courses & Player
+                    </button>
+                    <button onclick="switchTab('enrollment')" id="nav-enrollment" class="nav-btn px-3 py-2 rounded-lg text-slate-600 hover:text-indigo-600 hover:bg-slate-100 transition-colors">
+                        <i class="fa-solid fa-building-columns mr-1.5 text-xs"></i>Housing & Registration
+                    </button>
+                    <button onclick="switchTab('payments')" id="nav-payments" class="nav-btn px-3 py-2 rounded-lg text-slate-600 hover:text-indigo-600 hover:bg-slate-100 transition-colors">
+                        <i class="fa-solid fa-globe mr-1.5 text-xs"></i>Global Payments
+                    </button>
+                    <button onclick="switchTab('admin')" id="nav-admin" class="nav-btn px-3 py-2 rounded-lg text-slate-600 hover:text-indigo-600 hover:bg-slate-100 transition-colors">
+                        <i class="fa-solid fa-database mr-1.5 text-xs"></i>Admin Data Center
+                    </button>
+                </nav>
+
+                <!-- Actions -->
+                <div class="hidden sm:flex items-center space-x-3">
+                    <button onclick="switchTab('enrollment')" class="text-sm font-semibold text-slate-700 hover:text-indigo-600 px-3 py-2">
+                        Sign In
+                    </button>
+                    <button onclick="switchTab('enrollment')" class="bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-semibold px-4 py-2.5 rounded-xl shadow-sm hover:shadow-md transition-all">
+                        Enroll Now <i class="fa-solid fa-arrow-right ml-1 text-xs"></i>
+                    </button>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <div class="md:hidden">
+                    <button id="mobile-menu-btn" class="text-slate-600 hover:text-slate-900 focus:outline-none p-2">
+                        <i class="fa-solid fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu Dropdown -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-b border-slate-200 px-4 pt-2 pb-4 space-y-2">
+            <button onclick="switchTab('home'); toggleMobileMenu()" class="block w-full text-left px-3 py-2 rounded-lg text-slate-700 hover:bg-indigo-50 hover:text-indigo-600 font-medium">Home</button>
+            <button onclick="switchTab('courses'); toggleMobileMenu()" class="block w-full text-left px-3 py-2 rounded-lg text-slate-700 hover:bg-indigo-50 hover:text-indigo-600 font-medium">Courses & Player</button>
+            <button onclick="switchTab('enrollment'); toggleMobileMenu()" class="block w-full text-left px-3 py-2 rounded-lg text-slate-700 hover:bg-indigo-50 hover:text-indigo-600 font-medium">Housing & Enrollment</button>
+            <button onclick="switchTab('payments'); toggleMobileMenu()" class="block w-full text-left px-3 py-2 rounded-lg text-slate-700 hover:bg-indigo-50 hover:text-indigo-600 font-medium">International Payments</button>
+            <button onclick="switchTab('admin'); toggleMobileMenu()" class="block w-full text-left px-3 py-2 rounded-lg text-slate-700 hover:bg-indigo-50 hover:text-indigo-600 font-medium">Admin Data Center</button>
+        </div>
+    </header>
+
+    <main class="flex-grow">
+
+        <!-- ================= PAGE 1: HERO / HOME LANDING ================= -->
+        <section id="view-home" class="view-section">
+            <!-- Hero Banner -->
+            <div class="relative overflow-hidden bg-gradient-to-b from-indigo-900 via-indigo-950 to-slate-900 text-white pt-16 pb-24 lg:pt-24 lg:pb-32">
+                <div class="absolute inset-0 opacity-10 bg-[radial-gradient(#4f46e5_1px,transparent_1px)] [background-size:16px_16px]"></div>
+                
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+                    <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                        <div class="lg:col-span-7 space-y-6 text-center lg:text-left">
+                            <span class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-semibold bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">
+                                <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span> Admissions & Fall Registration Open
+                            </span>
+                            <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-tight">
+                                Empowering <span class="bg-gradient-to-r from-indigo-300 via-sky-300 to-emerald-300 bg-clip-text text-transparent">Global Education</span> & Campus Life
+                            </h1>
+                            <p class="text-slate-300 text-lg sm:text-xl max-w-2xl font-light">
+                                Access world-class degree programs, seamless dorm housing reservation, interactive HD video learning modules, and instant cross-border fee processing.
+                            </p>
+                            <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-4">
+                                <button onclick="switchTab('courses')" class="w-full sm:w-auto px-8 py-4 bg-indigo-600 hover:bg-indigo-500 text-white font-bold rounded-xl shadow-lg shadow-indigo-600/30 transition-all text-base flex items-center justify-center">
+                                    <i class="fa-solid fa-play mr-2 text-sm"></i> Explore Courses
+                                </button>
+                                <button onclick="switchTab('enrollment')" class="w-full sm:w-auto px-8 py-4 bg-white/10 hover:bg-white/20 text-white font-bold rounded-xl border border-white/20 backdrop-blur-sm transition-all text-base flex items-center justify-center">
+                                    <i class="fa-solid fa-bed mr-2 text-sm"></i> Apply Housing & Enrollment
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Interactive Stats Card Preview -->
+                        <div class="lg:col-span-5">
+                            <div class="bg-slate-800/80 border border-slate-700/80 rounded-2xl p-6 sm:p-8 backdrop-blur-md shadow-2xl space-y-6">
+                                <div class="flex items-center justify-between border-b border-slate-700 pb-4">
+                                    <h3 class="font-bold text-slate-100 flex items-center gap-2">
+                                        <i class="fa-solid fa-shield-halved text-emerald-400"></i> Global Student Hub
+                                    </h3>
+                                    <span class="text-xs bg-emerald-500/20 text-emerald-300 font-mono px-2.5 py-1 rounded-full border border-emerald-500/30">Active Portal</span>
+                                </div>
+                                <div class="grid grid-cols-2 gap-4">
+                                    <div class="bg-slate-900/60 p-4 rounded-xl border border-slate-800">
+                                        <p class="text-2xl font-extrabold text-white">50+</p>
+                                        <p class="text-xs text-slate-400 mt-1">Online Degree Courses</p>
+                                    </div>
+                                    <div class="bg-slate-900/60 p-4 rounded-xl border border-slate-800">
+                                        <p class="text-2xl font-extrabold text-white">10,000+</p>
+                                        <p class="text-xs text-slate-400 mt-1">Enrolled Students</p>
+                                    </div>
+                                    <div class="bg-slate-900/60 p-4 rounded-xl border border-slate-800">
+                                        <p class="text-2xl font-extrabold text-emerald-400">100%</p>
+                                        <p class="text-xs text-slate-400 mt-1">3D Secure / UPI FX</p>
+                                    </div>
+                                    <div class="bg-slate-900/60 p-4 rounded-xl border border-slate-800">
+                                        <p class="text-2xl font-extrabold text-amber-400">4 Main</p>
+                                        <p class="text-xs text-slate-400 mt-1">Dorm Campus Halls</p>
+                                    </div>
+                                </div>
+                                <div class="p-3.5 bg-indigo-900/40 border border-indigo-700/50 rounded-xl text-xs text-indigo-200 flex items-center justify-between">
+                                    <span><i class="fa-solid fa-bolt text-amber-400 mr-2"></i>Live Registration Sync: Active</span>
+                                    <button onclick="switchTab('admin')" class="underline hover:text-white">View Admin Data</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Features Grid Section -->
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-10 relative z-20 pb-16">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="bg-white p-6 rounded-2xl shadow-lg border border-slate-200/80 hover:shadow-xl transition-all group">
+                        <div class="w-12 h-12 bg-indigo-100 text-indigo-600 rounded-xl flex items-center justify-center text-xl mb-4 group-hover:bg-indigo-600 group-hover:text-white transition-colors">
+                            <i class="fa-solid fa-laptop-code"></i>
+                        </div>
+                        <h3 class="text-lg font-bold text-slate-900 mb-2">1. Interactive Video Classroom</h3>
+                        <p class="text-slate-600 text-sm mb-4">Engage with video lectures, track module completion, download lecture syllabus, and complete instant quizzes.</p>
+                        <button onclick="switchTab('courses')" class="text-sm font-semibold text-indigo-600 hover:text-indigo-800 flex items-center">
+                            Launch Course Player <i class="fa-solid fa-chevron-right text-xs ml-1"></i>
+                        </button>
+                    </div>
+
+                    <div class="bg-white p-6 rounded-2xl shadow-lg border border-slate-200/80 hover:shadow-xl transition-all group">
+                        <div class="w-12 h-12 bg-emerald-100 text-emerald-600 rounded-xl flex items-center justify-center text-xl mb-4 group-hover:bg-emerald-600 group-hover:text-white transition-colors">
+                            <i class="fa-solid fa-house-user"></i>
+                        </div>
+                        <h3 class="text-lg font-bold text-slate-900 mb-2">2. Housing & Registration</h3>
+                        <p class="text-slate-600 text-sm mb-4">Complete student profiles, pick university dorm rooms, choose dining plans, and generate your official STU-ID instantly.</p>
+                        <button onclick="switchTab('enrollment')" class="text-sm font-semibold text-emerald-600 hover:text-emerald-800 flex items-center">
+                            Start Application <i class="fa-solid fa-chevron-right text-xs ml-1"></i>
+                        </button>
+                    </div>
+
+                    <div class="bg-white p-6 rounded-2xl shadow-lg border border-slate-200/80 hover:shadow-xl transition-all group">
+                        <div class="w-12 h-12 bg-sky-100 text-sky-600 rounded-xl flex items-center justify-center text-xl mb-4 group-hover:bg-sky-600 group-hover:text-white transition-colors">
+                            <i class="fa-solid fa-money-bill-transfer"></i>
+                        </div>
+                        <h3 class="text-lg font-bold text-slate-900 mb-2">3. Cross-Border FX Gateway</h3>
+                        <p class="text-slate-600 text-sm mb-4">Pay tuition using Global Credit Cards with 3DS OTP verification or Indian local UPI/NetBanking with live USD/INR FX calculation.</p>
+                        <button onclick="switchTab('payments')" class="text-sm font-semibold text-sky-600 hover:text-sky-800 flex items-center">
+                            Make Payment <i class="fa-solid fa-chevron-right text-xs ml-1"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= PAGE 2: COURSES & VIDEO PLAYER ================= -->
+        <section id="view-courses" class="view-section hidden max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+            <div class="mb-8 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                <div>
+                    <h2 class="text-3xl font-extrabold text-slate-900 tracking-tight">Online Learning Portal</h2>
+                    <p class="text-slate-600 text-sm mt-1">Browse active video modules, complete quizzes, and stream course lectures.</p>
+                </div>
+                <!-- Category Filters -->
+                <div class="flex flex-wrap gap-2">
+                    <button onclick="filterCourses('all')" class="course-filter-btn px-4 py-2 rounded-xl text-sm font-semibold bg-indigo-600 text-white shadow-sm">All Courses</button>
+                    <button onclick="filterCourses('Technology')" class="course-filter-btn px-4 py-2 rounded-xl text-sm font-semibold bg-white border border-slate-300 text-slate-700 hover:bg-slate-100">Technology</button>
+                    <button onclick="filterCourses('Business')" class="course-filter-btn px-4 py-2 rounded-xl text-sm font-semibold bg-white border border-slate-300 text-slate-700 hover:bg-slate-100">Business</button>
+                    <button onclick="filterCourses('Sciences')" class="course-filter-btn px-4 py-2 rounded-xl text-sm font-semibold bg-white border border-slate-300 text-slate-700 hover:bg-slate-100">Sciences</button>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                <!-- Course List Grid -->
+                <div class="lg:col-span-5 space-y-4" id="courses-grid-container">
+                    <!-- Dynamic Rendered via JS -->
+                </div>
+
+                <!-- Video Lesson Player Section -->
+                <div class="lg:col-span-7">
+                    <div class="bg-white rounded-2xl border border-slate-200 shadow-md overflow-hidden sticky top-28">
+                        <!-- Video Display Container -->
+                        <div class="relative bg-slate-950 aspect-video flex items-center justify-center text-white overflow-hidden" id="video-display">
+                            <div class="text-center p-6" id="video-placeholder">
+                                <i class="fa-solid fa-circle-play text-5xl text-indigo-400 mb-3 animate-pulse"></i>
+                                <h4 class="text-lg font-bold" id="player-title">Select a course module to start learning</h4>
+                                <p class="text-xs text-slate-400 mt-1" id="player-subtitle">Interactive streaming player ready</p>
+                            </div>
+                            <!-- Mock HTML5 Video Player View overlay -->
+                            <div id="active-video-player" class="hidden w-full h-full flex flex-col justify-between p-4 bg-gradient-to-t from-black/80 via-transparent to-black/40">
+                                <div class="flex justify-between items-center text-xs text-slate-300">
+                                    <span class="bg-indigo-600 text-white px-2 py-1 rounded font-bold uppercase tracking-wider" id="player-badge">TECH 101</span>
+                                    <span><i class="fa-solid fa-eye text-emerald-400 mr-1"></i> HD Live Stream</span>
+                                </div>
+                                <div class="text-center my-auto">
+                                    <button onclick="togglePlayState()" id="play-pause-btn" class="w-16 h-16 bg-indigo-600/90 hover:bg-indigo-600 text-white rounded-full flex items-center justify-center text-2xl shadow-xl transition-all mx-auto">
+                                        <i class="fa-solid fa-play" id="play-icon"></i>
+                                    </button>
+                                </div>
+                                <div class="space-y-2">
+                                    <div class="w-full bg-slate-700 h-2 rounded-full overflow-hidden cursor-pointer" onclick="seekVideo(event)">
+                                        <div class="bg-indigo-500 h-full w-1/3 transition-all" id="video-progress-bar"></div>
+                                    </div>
+                                    <div class="flex justify-between text-xs text-slate-300 font-mono">
+                                        <span id="current-time">04:15</span>
+                                        <span id="total-time">12:30</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Player Tabs Header -->
+                        <div class="border-b border-slate-200 bg-slate-50 flex px-4 pt-3 space-x-6 text-sm font-semibold">
+                            <button onclick="switchPlayerTab('checklist')" id="tab-btn-checklist" class="pb-3 border-b-2 border-indigo-600 text-indigo-600">Module Checklist</button>
+                            <button onclick="switchPlayerTab('quiz')" id="tab-btn-quiz" class="pb-3 border-b-2 border-transparent text-slate-500 hover:text-slate-800">Quick Knowledge Quiz</button>
+                            <button onclick="switchPlayerTab('notes')" id="tab-btn-notes" class="pb-3 border-b-2 border-transparent text-slate-500 hover:text-slate-800">Syllabus & Notes</button>
+                        </div>
+
+                        <!-- Player Content Tabs -->
+                        <div class="p-6">
+                            <!-- Checklist Tab -->
+                            <div id="player-tab-checklist" class="space-y-3">
+                                <h4 class="font-bold text-slate-800 text-sm uppercase tracking-wider text-xs">Course Modules & Tasks</h4>
+                                <div id="module-items" class="space-y-2">
+                                    <!-- Dynamic module checkboxes rendered via JS -->
+                                </div>
+                            </div>
+
+                            <!-- Quiz Tab -->
+                            <div id="player-tab-quiz" class="hidden space-y-4">
+                                <h4 class="font-bold text-slate-800">Module Knowledge Check</h4>
+                                <div class="bg-indigo-50 p-4 rounded-xl border border-indigo-100 text-sm">
+                                    <p class="font-semibold text-slate-800 mb-3" id="quiz-question">Question: What is the primary purpose of object encapsulation in software architecture?</p>
+                                    <div class="space-y-2" id="quiz-options">
+                                        <label class="flex items-center p-2.5 bg-white rounded-lg border border-slate-200 hover:border-indigo-400 cursor-pointer text-xs">
+                                            <input type="radio" name="quiz" class="mr-2 text-indigo-600"> Restricting direct state modifications from external modules
+                                        </label>
+                                        <label class="flex items-center p-2.5 bg-white rounded-lg border border-slate-200 hover:border-indigo-400 cursor-pointer text-xs">
+                                            <input type="radio" name="quiz" class="mr-2 text-indigo-600"> Accelerating database query execution time
+                                        </label>
+                                    </div>
+                                    <button onclick="submitQuiz()" class="mt-4 px-4 py-2 bg-indigo-600 text-white rounded-lg text-xs font-bold shadow-sm">Submit Answer</button>
+                                </div>
+                            </div>
+
+                            <!-- Syllabus Tab -->
+                            <div id="player-tab-notes" class="hidden space-y-3 text-sm text-slate-600">
+                                <h4 class="font-bold text-slate-800">Course Syllabus Summary</h4>
+                                <p>This program covers basic to advanced paradigms required for university credit. All course progress is logged in your central administrative profile.</p>
+                                <div class="p-3 bg-slate-100 rounded-lg text-xs font-mono text-slate-700">
+                                    Course Code: UNI-2026-CS<br>
+                                    Credits: 4.0 Semester Units<br>
+                                    Instructor: Dr. Aris Vance
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= PAGE 3: HOUSING & ENROLLMENT ================= -->
+        <section id="view-enrollment" class="view-section hidden max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+            <div class="bg-white rounded-3xl border border-slate-200 shadow-xl overflow-hidden">
+                <!-- Header Banner -->
+                <div class="bg-gradient-to-r from-indigo-900 to-slate-900 text-white p-8">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <span class="text-xs bg-indigo-500/30 text-indigo-300 font-semibold uppercase px-3 py-1 rounded-full border border-indigo-400/20">Official University Portal</span>
+                            <h2 class="text-2xl sm:text-3xl font-extrabold mt-2">Housing & Student Enrollment</h2>
+                            <p class="text-slate-300 text-sm mt-1">Fill in details to generate your unique STU-ID and calculate room & tuition fees.</p>
+                        </div>
+                        <div class="hidden sm:block text-right">
+                            <span class="text-xs text-slate-400 block">Generated Student ID</span>
+                            <span class="text-lg font-mono font-bold text-emerald-400" id="preview-stu-id">STU-2026-8821</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Wizard Form Step Controls -->
+                <div class="bg-slate-50 border-b border-slate-200 px-8 py-4 flex justify-between text-xs font-bold text-slate-500">
+                    <span id="step-lbl-1" class="text-indigo-600 flex items-center gap-1.5"><i class="fa-solid fa-circle-check"></i> 1. Personal Information</span>
+                    <span id="step-lbl-2" class="flex items-center gap-1.5"><i class="fa-solid fa-bed"></i> 2. Dorm Room Selection</span>
+                    <span id="step-lbl-3" class="flex items-center gap-1.5"><i class="fa-solid fa-file-invoice-dollar"></i> 3. Review & Submit</span>
+                </div>
+
+                <form id="enrollment-form" onsubmit="handleEnrollmentSubmit(event)" class="p-8 space-y-6">
+                    <!-- Step 1: Personal Info -->
+                    <div id="form-step-1" class="space-y-4">
+                        <h3 class="font-bold text-slate-900 text-lg border-b pb-2">Student Profile</h3>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Full Legal Name *</label>
+                                <input type="text" id="stu-name" required value="Elena Rostova" class="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-indigo-500 focus:outline-none text-sm">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Email Address *</label>
+                                <input type="email" id="stu-email" required value="elena.r@global.edu" class="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-indigo-500 focus:outline-none text-sm">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Country of Origin *</label>
+                                <select id="stu-country" class="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-indigo-500 focus:outline-none text-sm">
+                                    <option value="India">India</option>
+                                    <option value="United States">United States</option>
+                                    <option value="Germany">Germany</option>
+                                    <option value="Canada">Canada</option>
+                                    <option value="Japan">Japan</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Intended Major *</label>
+                                <select id="stu-major" class="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-indigo-500 focus:outline-none text-sm">
+                                    <option value="Computer Science">Computer Science & AI</option>
+                                    <option value="Global Business">Global Business & Finance</option>
+                                    <option value="Biotechnology">Biotechnology & Health</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 2: Dorm Selection -->
+                    <div id="form-step-2" class="space-y-4">
+                        <h3 class="font-bold text-slate-900 text-lg border-b pb-2">University Dorm & Meal Plan</h3>
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                            <label class="border-2 border-indigo-600 bg-indigo-50/50 p-4 rounded-2xl cursor-pointer block text-center space-y-2">
+                                <input type="radio" name="dorm_hall" value="Founders Hall (Single)" checked onchange="updateFeeCalculation()" class="text-indigo-600">
+                                <i class="fa-solid fa-building text-2xl text-indigo-600 block"></i>
+                                <span class="font-bold text-sm text-slate-800 block">Founders Hall</span>
+                                <span class="text-xs text-slate-500 block">Private Single Suite</span>
+                                <span class="text-xs font-bold text-indigo-700 block">$2,400 / term</span>
+                            </label>
+
+                            <label class="border-2 border-slate-200 p-4 rounded-2xl cursor-pointer block text-center space-y-2 hover:border-indigo-300">
+                                <input type="radio" name="dorm_hall" value="West Campus (Shared)" onchange="updateFeeCalculation()" class="text-indigo-600">
+                                <i class="fa-solid fa-users text-2xl text-slate-600 block"></i>
+                                <span class="font-bold text-sm text-slate-800 block">West Campus Dorm</span>
+                                <span class="text-xs text-slate-500 block">Shared Double Suite</span>
+                                <span class="text-xs font-bold text-indigo-700 block">$1,500 / term</span>
+                            </label>
+
+                            <label class="border-2 border-slate-200 p-4 rounded-2xl cursor-pointer block text-center space-y-2 hover:border-indigo-300">
+                                <input type="radio" name="dorm_hall" value="Off-Campus Commuter" onchange="updateFeeCalculation()" class="text-indigo-600">
+                                <i class="fa-solid fa-house text-2xl text-slate-600 block"></i>
+                                <span class="font-bold text-sm text-slate-800 block">Off-Campus</span>
+                                <span class="text-xs text-slate-500 block">Commuter / Self-Housing</span>
+                                <span class="text-xs font-bold text-indigo-700 block">$0 / term</span>
+                            </label>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Campus Dining Plan</label>
+                            <select id="stu-meal" onchange="updateFeeCalculation()" class="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-indigo-500 focus:outline-none text-sm">
+                                <option value="800">Unlimited Campus Dining ($800/term)</option>
+                                <option value="450">Standard 10-Meal Pass ($450/term)</option>
+                                <option value="0">No Meal Plan ($0)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Fee Breakdown Summary -->
+                    <div class="bg-slate-900 text-white p-6 rounded-2xl space-y-3">
+                        <div class="flex justify-between items-center text-sm">
+                            <span class="text-slate-400">Base Tuition Fee:</span>
+                            <span class="font-mono">$3,500.00</span>
+                        </div>
+                        <div class="flex justify-between items-center text-sm">
+                            <span class="text-slate-400">Dormitory Room Fee:</span>
+                            <span class="font-mono" id="summary-dorm-fee">$2,400.00</span>
+                        </div>
+                        <div class="flex justify-between items-center text-sm">
+                            <span class="text-slate-400">Dining Meal Plan:</span>
+                            <span class="font-mono" id="summary-meal-fee">$800.00</span>
+                        </div>
+                        <div class="border-t border-slate-800 pt-3 flex justify-between items-center font-bold text-lg">
+                            <span>Total Payable Amount:</span>
+                            <span class="text-emerald-400 font-mono" id="summary-total-fee">$6,700.00</span>
+                        </div>
+                    </div>
+
+                    <div class="flex justify-end gap-3 pt-2">
+                        <button type="submit" class="px-8 py-3 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-xl shadow-lg transition-all text-sm flex items-center">
+                            <i class="fa-solid fa-circle-check mr-2"></i> Submit Registration & Proceed to Payment
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </section>
+
+        <!-- ================= PAGE 4: INTERNATIONAL PAYMENTS GATEWAY ================= -->
+        <section id="view-payments" class="view-section hidden max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+            <div class="mb-8">
+                <h2 class="text-3xl font-extrabold text-slate-900 tracking-tight">International Financial Gateway</h2>
+                <p class="text-slate-600 text-sm mt-1">Cross-border payment clearing with Stripe 3DS verification & India UPI FX estimator.</p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                <!-- Payment Methods Column -->
+                <div class="lg:col-span-7 space-y-6">
+                    <!-- Tabs for Payment Options -->
+                    <div class="bg-white rounded-2xl border border-slate-200 p-2 flex gap-2">
+                        <button onclick="switchPaymentMethod('card')" id="pay-method-card" class="flex-1 py-2.5 rounded-xl text-xs font-bold bg-indigo-600 text-white shadow-sm flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-credit-card"></i> Credit / Debit (Stripe 3DS)
+                        </button>
+                        <button onclick="switchPaymentMethod('upi')" id="pay-method-upi" class="flex-1 py-2.5 rounded-xl text-xs font-bold bg-slate-100 text-slate-700 hover:bg-slate-200 flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-mobile-screen"></i> India Local (UPI / NetBanking)
+                        </button>
+                    </div>
+
+                    <!-- CARD PAYMENT BOX -->
+                    <div id="payment-box-card" class="bg-white rounded-2xl border border-slate-200 p-6 shadow-md space-y-4">
+                        <div class="flex items-center justify-between border-b pb-3">
+                            <h3 class="font-bold text-slate-800 text-base flex items-center gap-2">
+                                <i class="fa-solid fa-lock text-emerald-600"></i> Stripe 3D-Secure 2.0 Checkout
+                            </h3>
+                            <div class="flex gap-2 text-xl text-slate-400">
+                                <i class="fa-brands fa-cc-visa"></i>
+                                <i class="fa-brands fa-cc-mastercard"></i>
+                                <i class="fa-brands fa-cc-amex"></i>
+                            </div>
+                        </div>
+
+                        <div class="space-y-3">
+                            <div>
+                                <label class="block text-xs font-bold text-slate-700 mb-1">Cardholder Name</label>
+                                <input type="text" value="Elena Rostova" class="w-full px-4 py-2 rounded-xl border border-slate-300 text-sm">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-slate-700 mb-1">Card Number</label>
+                                <input type="text" value="4242 •••• •••• 4242" class="w-full px-4 py-2 rounded-xl border border-slate-300 text-sm font-mono">
+                            </div>
+                            <div class="grid grid-cols-2 gap-3">
+                                <div>
+                                    <label class="block text-xs font-bold text-slate-700 mb-1">Expiry Date</label>
+                                    <input type="text" value="08/28" class="w-full px-4 py-2 rounded-xl border border-slate-300 text-sm font-mono">
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-bold text-slate-700 mb-1">CVC / CVV</label>
+                                    <input type="password" value="888" class="w-full px-4 py-2 rounded-xl border border-slate-300 text-sm font-mono">
+                                </div>
+                            </div>
+                        </div>
+
+                        <button onclick="trigger3DSecureFlow()" class="w-full py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl shadow-md transition-all text-sm flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-shield-halved"></i> Pay <span class="active-payment-amount">$6,700.00</span> with 3DS Verification
+                        </button>
+                    </div>
+
+                    <!-- UPI & NETBANKING BOX -->
+                    <div id="payment-box-upi" class="hidden bg-white rounded-2xl border border-slate-200 p-6 shadow-md space-y-4">
+                        <div class="flex items-center justify-between border-b pb-3">
+                            <h3 class="font-bold text-slate-800 text-base flex items-center gap-2">
+                                <i class="fa-solid fa-qrcode text-indigo-600"></i> India Local Payment Gateway (UPI / VPA)
+                            </h3>
+                            <span class="text-xs bg-emerald-100 text-emerald-800 font-bold px-2.5 py-0.5 rounded-full">Wise & Razorpay Integration</span>
+                        </div>
+
+                        <div class="bg-indigo-50/80 p-4 rounded-xl border border-indigo-100 flex items-center justify-between">
+                            <div>
+                                <p class="text-xs text-indigo-900 font-bold">Real-time Foreign Exchange (FX)</p>
+                                <p class="text-xs text-indigo-700">1 USD = <span id="fx-rate-display" class="font-bold font-mono">83.50 INR</span> (Zero Margin Fee)</p>
+                            </div>
+                            <div class="text-right font-mono font-extrabold text-indigo-900 text-base" id="inr-converted-total">
+                                ₹559,450 INR
+                            </div>
+                        </div>
+
+                        <div class="space-y-3">
+                            <div>
+                                <label class="block text-xs font-bold text-slate-700 mb-1">Enter UPI ID (VPA)</label>
+                                <input type="text" id="upi-vpa-input" placeholder="studentname@okaxis or @upi" class="w-full px-4 py-2 rounded-xl border border-slate-300 text-sm">
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-3 pt-2">
+                            <button onclick="generateUPIQRCode()" class="py-2.5 bg-slate-900 text-white rounded-xl text-xs font-bold flex items-center justify-center gap-2">
+                                <i class="fa-solid fa-qrcode"></i> Generate QR Code
+                            </button>
+                            <button onclick="simulateUPIPush()" class="py-2.5 bg-emerald-600 text-white rounded-xl text-xs font-bold flex items-center justify-center gap-2">
+                                <i class="fa-solid fa-paper-plane"></i> Send UPI Collect Request
+                            </button>
+                        </div>
+
+                        <!-- Simulated Dynamic QR Box -->
+                        <div id="upi-qr-box" class="hidden text-center p-4 bg-slate-50 border border-slate-200 rounded-xl space-y-2">
+                            <div class="w-32 h-32 bg-slate-900 text-white mx-auto rounded-lg flex items-center justify-center font-mono text-xs p-2 text-center">
+                                [SIMULATED DYNAMIC UPI QR]
+                            </div>
+                            <p class="text-xs text-slate-600 font-medium">Scan using BHIM, Google Pay, PhonePe, or Paytm</p>
+                            <button onclick="confirmUPIPaymentSuccess()" class="text-xs font-bold text-indigo-600 underline">Simulate Mobile App Approval</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Side Summary Card -->
+                <div class="lg:col-span-5">
+                    <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-md space-y-4 sticky top-28">
+                        <h3 class="font-bold text-slate-900 text-base border-b pb-3">Payment Statement Summary</h3>
+                        <div class="space-y-2 text-sm">
+                            <div class="flex justify-between text-slate-600">
+                                <span>Student Reference:</span>
+                                <span class="font-mono font-bold text-slate-900" id="payment-summary-id">STU-2026-8821</span>
+                            </div>
+                            <div class="flex justify-between text-slate-600">
+                                <span>Status:</span>
+                                <span class="bg-amber-100 text-amber-800 text-xs font-bold px-2 py-0.5 rounded-full" id="payment-status-badge">Pending Clearing</span>
+                            </div>
+                            <div class="flex justify-between text-slate-600">
+                                <span>Semester / Term:</span>
+                                <span class="font-medium text-slate-900">Fall 2026</span>
+                            </div>
+                        </div>
+
+                        <div class="bg-slate-50 p-4 rounded-xl space-y-2">
+                            <div class="flex justify-between text-xs text-slate-600">
+                                <span>Housing & Tuition:</span>
+                                <span id="summary-subtotal">$6,700.00</span>
+                            </div>
+                            <div class="flex justify-between text-xs text-slate-600">
+                                <span>International Clearing Fee:</span>
+                                <span>$0.00 (Waived)</span>
+                            </div>
+                            <div class="border-t pt-2 flex justify-between font-bold text-sm text-slate-900">
+                                <span>Total Due:</span>
+                                <span class="text-indigo-600 font-mono active-payment-amount">$6,700.00</span>
+                            </div>
+                        </div>
+
+                        <div class="text-xs text-slate-500 space-y-1">
+                            <p><i class="fa-solid fa-lock text-emerald-600 mr-1"></i> Encrypted with 256-bit SSL Standard.</p>
+                            <p><i class="fa-solid fa-building-columns text-slate-400 mr-1"></i> Receipts automatically synced to Admin Data Center.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= PAGE 5: ADMIN DATA CENTER & CSV EXPORT ================= -->
+        <section id="view-admin" class="view-section hidden max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+            <div class="mb-8 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                <div>
+                    <h2 class="text-3xl font-extrabold text-slate-900 tracking-tight">Admin Data Center</h2>
+                    <p class="text-slate-600 text-sm mt-1">Real-time consolidated database rows for student enrollment, payments, and course progress.</p>
+                </div>
+                <div class="flex items-center gap-3">
+                    <button onclick="addNewMockRecord()" class="px-4 py-2.5 bg-slate-800 hover:bg-slate-900 text-white text-xs font-bold rounded-xl shadow-sm transition-all flex items-center gap-2">
+                        <i class="fa-solid fa-user-plus"></i> Add Mock Student
+                    </button>
+                    <!-- Raw CSV Export Button -->
+                    <button onclick="exportTableToCSV()" class="px-5 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold rounded-xl shadow-md transition-all flex items-center gap-2">
+                        <i class="fa-solid fa-file-excel text-sm"></i> Export Raw CSV / Excel
+                    </button>
+                </div>
+            </div>
+
+            <!-- Consolidated Table Card -->
+            <div class="bg-white rounded-2xl border border-slate-200 shadow-lg overflow-hidden">
+                <div class="p-4 bg-slate-50 border-b border-slate-200 flex flex-col sm:flex-row justify-between items-center gap-3">
+                    <div class="relative w-full sm:w-72">
+                        <i class="fa-solid fa-magnifying-glass absolute left-3 top-3 text-xs text-slate-400"></i>
+                        <input type="text" id="admin-search-input" onkeyup="filterAdminTable()" placeholder="Search Student ID, Name or Dorm..." class="w-full pl-9 pr-4 py-1.5 rounded-lg border border-slate-300 text-xs focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                    </div>
+                    <span class="text-xs text-slate-500 font-semibold" id="admin-row-count">Total Records: 4</span>
+                </div>
+
+                <div class="overflow-x-auto custom-scrollbar">
+                    <table class="w-full text-left border-collapse text-xs">
+                        <thead>
+                            <tr class="bg-slate-100 text-slate-700 font-bold uppercase tracking-wider border-b border-slate-200">
+                                <th class="p-3.5">Student ID</th>
+                                <th class="p-3.5">Name</th>
+                                <th class="p-3.5">Country</th>
+                                <th class="p-3.5">Major / Program</th>
+                                <th class="p-3.5">Housing Dorm</th>
+                                <th class="p-3.5">Payment Status</th>
+                                <th class="p-3.5">Tuition Fee</th>
+                                <th class="p-3.5">Course Progress</th>
+                                <th class="p-3.5 text-right">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="admin-table-body" class="divide-y divide-slate-200 font-medium text-slate-800">
+                            <!-- Dynamic Rows Rendered via JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Simulated 3DS OTP Modal Popup -->
+    <div id="modal-3ds" class="fixed inset-0 z-50 bg-slate-950/70 backdrop-blur-sm hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl border border-slate-200 space-y-4">
+            <div class="flex items-center justify-between border-b pb-3">
+                <div class="flex items-center gap-2">
+                    <span class="font-extrabold text-indigo-700 text-lg tracking-tight">Verified by VISA</span>
+                    <span class="text-xs bg-slate-100 px-2 py-0.5 rounded text-slate-500 font-mono">3D-Secure 2.0</span>
+                </div>
+                <button onclick="close3DSModal()" class="text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark text-lg"></i></button>
+            </div>
+            <p class="text-xs text-slate-600">A one-time passcode (OTP) has been dispatched to your registered phone number Ending in <b>••42</b>.</p>
+            <div class="bg-slate-50 p-3 rounded-xl text-xs space-y-1 border">
+                <p>Merchant: <b>EduPortal Global Univ</b></p>
+                <p>Amount: <b class="active-payment-amount">$6,700.00</b></p>
+            </div>
+            <div>
+                <label class="block text-xs font-bold text-slate-700 mb-1">Enter 6-Digit Verification Code</label>
+                <input type="text" id="otp-input" value="882104" font-mono class="w-full text-center tracking-widest text-lg font-bold py-2 rounded-xl border border-indigo-300 focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+            </div>
+            <button onclick="confirm3DSPayment()" class="w-full py-3 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-xl text-xs shadow-md">
+                Authorize & Confirm Payment
+            </button>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-slate-900 text-slate-400 border-t border-slate-800 text-xs py-10 mt-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div class="space-y-3">
+                    <div class="flex items-center space-x-2 text-white">
+                        <i class="fa-solid fa-graduation-cap text-indigo-400 text-lg"></i>
+                        <span class="font-bold text-base">EduPortal Global</span>
+                    </div>
+                    <p class="text-slate-400">Leading international learning platform providing integrated student housing, video lectures, and instant FX payments.</p>
+                </div>
+                <div>
+                    <h4 class="text-white font-bold mb-3">Quick Navigation</h4>
+                    <ul class="space-y-2">
+                        <li><button onclick="switchTab('courses')" class="hover:text-white">Online Video Player</button></li>
+                        <li><button onclick="switchTab('enrollment')" class="hover:text-white">Housing & Enrollment</button></li>
+                        <li><button onclick="switchTab('payments')" class="hover:text-white">Global Payments & UPI</button></li>
+                        <li><button onclick="switchTab('admin')" class="hover:text-white">Admin Data Center</button></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-white font-bold mb-3">Security & Compliance</h4>
+                    <p class="mb-2">All payments processed with 256-Bit SSL encryption & 3DS 2.0 protocols.</p>
+                    <div class="flex gap-3 text-xl text-slate-300">
+                        <i class="fa-brands fa-cc-visa"></i>
+                        <i class="fa-brands fa-cc-mastercard"></i>
+                        <i class="fa-solid fa-shield-halved text-emerald-400"></i>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="text-white font-bold mb-3">University Campus</h4>
+                    <p>100 Academic Parkway, Education Hub</p>
+                    <p class="mt-1">Admissions: admissions@eduportal.global</p>
+                </div>
+            </div>
+            <div class="border-t border-slate-800 pt-6 flex flex-col sm:flex-row justify-between items-center text-slate-500">
+                <p>&copy; 2026 EduPortal Global University. All rights reserved.</p>
+                <p>Integrated All-in-One Educational Engine</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // GLOBAL DATA STATE
+        let activeTab = 'home';
+        let currentCourseCategory = 'all';
+        let activeCourseIndex = 0;
+        let isPlaying = false;
+
+        // Mock Consolidated Database Records
+        let adminRecords = [
+            { id: "STU-2026-8821", name: "Elena Rostova", country: "Germany", major: "Computer Science", dorm: "Founders Hall (Single)", status: "Paid", fee: "$6,700.00", progress: "45%" },
+            { id: "STU-2026-4102", name: "Aarav Sharma", country: "India", major: "Global Business", dorm: "West Campus (Shared)", status: "Pending Clearing", fee: "$5,000.00", progress: "80%" },
+            { id: "STU-2026-1193", name: "Sophia Chen", country: "Japan", major: "Biotechnology", dorm: "Founders Hall (Single)", status: "Paid", fee: "$6,700.00", progress: "100%" },
+            { id: "STU-2026-9041", name: "Marcus Vance", country: "United States", major: "Computer Science", dorm: "Off-Campus Commuter", status: "Paid", fee: "$3,500.00", progress: "15%" }
+        ];
+
+        // Mock Courses List
+        const coursesData = [
+            {
+                id: "CS101",
+                title: "Advanced Data Structures & Algorithms",
+                category: "Technology",
+                instructor: "Dr. Aris Vance",
+                duration: "12 Hours • 8 Modules",
+                badge: "Tech 101",
+                modules: [
+                    { title: "1. Encapsulation & Object Models", completed: true },
+                    { title: "2. Binary Trees & Graph Traversal", completed: false },
+                    { title: "3. Dynamic Programming Fundamentals", completed: false }
+                ]
+            },
+            {
+                id: "BUS202",
+                title: "International Financial Markets & FX Strategy",
+                category: "Business",
+                instructor: "Prof. Sarah Jenkins",
+                duration: "9 Hours • 6 Modules",
+                badge: "BUS 202",
+                modules: [
+                    { title: "1. Cross-Border Foreign Exchange Mechanics", completed: true },
+                    { title: "2. Derivatives and Risk Hedging", completed: false }
+                ]
+            },
+            {
+                id: "BIO301",
+                title: "Molecular Genetics & Bio-Engineering",
+                category: "Sciences",
+                instructor: "Dr. Kenji Sato",
+                duration: "15 Hours • 10 Modules",
+                badge: "BIO 301",
+                modules: [
+                    { title: "1. DNA Sequencing Paradigms", completed: true },
+                    { title: "2. Gene Editing with CRISPR-Cas9", completed: false }
+                ]
+            }
+        ];
+
+        // TAB SWITCHING SYSTEM
+        function switchTab(tabId) {
+            activeTab = tabId;
+            document.querySelectorAll('.view-section').forEach(el => el.classList.add('hidden'));
+            document.getElementById(`view-${tabId}`).classList.remove('hidden');
+
+            // Update Nav Buttons
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('text-indigo-600', 'bg-indigo-50', 'font-semibold');
+                btn.classList.add('text-slate-600');
+            });
+            const activeNav = document.getElementById(`nav-${tabId}`);
+            if (activeNav) {
+                activeNav.classList.add('text-indigo-600', 'bg-indigo-50', 'font-semibold');
+            }
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        }
+
+        // COURSES & PLAYER LOGIC
+        function renderCoursesGrid() {
+            const container = document.getElementById('courses-grid-container');
+            container.innerHTML = '';
+
+            const filtered = currentCourseCategory === 'all' 
+                ? coursesData 
+                : coursesData.filter(c => c.category === currentCourseCategory);
+
+            filtered.forEach((course, index) => {
+                const card = document.createElement('div');
+                card.className = `p-5 rounded-2xl border transition-all cursor-pointer bg-white ${index === activeCourseIndex ? 'border-indigo-600 shadow-md ring-1 ring-indigo-600' : 'border-slate-200 hover:border-slate-300'}`;
+                card.onclick = () => selectCourse(index);
+                card.innerHTML = `
+                    <div class="flex justify-between items-start mb-2">
+                        <span class="text-xs font-bold px-2.5 py-0.5 rounded-full bg-indigo-100 text-indigo-700">${course.category}</span>
+                        <span class="text-xs text-slate-400"><i class="fa-regular fa-clock mr-1"></i>${course.duration}</span>
+                    </div>
+                    <h3 class="font-bold text-slate-900 text-base mb-1">${course.title}</h3>
+                    <p class="text-xs text-slate-500 mb-3"><i class="fa-solid fa-user-tie mr-1"></i>${course.instructor}</p>
+                    <div class="flex items-center justify-between text-xs font-semibold text-indigo-600">
+                        <span><i class="fa-solid fa-circle-play mr-1"></i> Stream Video Lesson</span>
+                        <i class="fa-solid fa-chevron-right text-xs"></i>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function filterCourses(cat) {
+            currentCourseCategory = cat;
+            document.querySelectorAll('.course-filter-btn').forEach(btn => {
+                btn.classList.remove('bg-indigo-600', 'text-white');
+                btn.classList.add('bg-white', 'text-slate-700');
+            });
+            event.target.classList.remove('bg-white', 'text-slate-700');
+            event.target.classList.add('bg-indigo-600', 'text-white');
+            renderCoursesGrid();
+        }
+
+        function selectCourse(index) {
+            activeCourseIndex = index;
+            renderCoursesGrid();
+            const course = coursesData[index];
+
+            document.getElementById('video-placeholder').classList.add('hidden');
+            document.getElementById('active-video-player').classList.remove('hidden');
+            document.getElementById('player-badge').innerText = course.badge;
+
+            // Render Modules Checklist
+            const moduleContainer = document.getElementById('module-items');
+            moduleContainer.innerHTML = '';
+            course.modules.forEach((mod, i) => {
+                const item = document.createElement('label');
+                item.className = 'flex items-center justify-between p-3 bg-slate-50 rounded-xl border border-slate-200 hover:border-indigo-300 cursor-pointer text-xs font-medium text-slate-800';
+                item.innerHTML = `
+                    <span class="flex items-center gap-2">
+                        <input type="checkbox" ${mod.completed ? 'checked' : ''} onchange="toggleModuleCheck(${i})" class="rounded text-indigo-600">
+                        ${mod.title}
+                    </span>
+                    <span class="text-slate-400 text-xs">15 mins</span>
+                `;
+                moduleContainer.appendChild(item);
+            });
+        }
+
+        function toggleModuleCheck(modIndex) {
+            coursesData[activeCourseIndex].modules[modIndex].completed = !coursesData[activeCourseIndex].modules[modIndex].completed;
+        }
+
+        function togglePlayState() {
+            isPlaying = !isPlaying;
+            const icon = document.getElementById('play-icon');
+            if (isPlaying) {
+                icon.className = 'fa-solid fa-pause';
+            } else {
+                icon.className = 'fa-solid fa-play';
+            }
+        }
+
+        function switchPlayerTab(tab) {
+            document.getElementById('player-tab-checklist').classList.add('hidden');
+            document.getElementById('player-tab-quiz').classList.add('hidden');
+            document.getElementById('player-tab-notes').classList.add('hidden');
+
+            document.getElementById('tab-btn-checklist').className = 'pb-3 border-b-2 border-transparent text-slate-500';
+            document.getElementById('tab-btn-quiz').className = 'pb-3 border-b-2 border-transparent text-slate-500';
+            document.getElementById('tab-btn-notes').className = 'pb-3 border-b-2 border-transparent text-slate-500';
+
+            document.getElementById(`player-tab-${tab}`).classList.remove('hidden');
+            document.getElementById(`tab-btn-${tab}`).className = 'pb-3 border-b-2 border-indigo-600 text-indigo-600 font-bold';
+        }
+
+        function submitQuiz() {
+            alert('Quiz Answer Submitted! Progress logged in your student portal.');
+        }
+
+        // HOUSING & ENROLLMENT LOGIC
+        function updateFeeCalculation() {
+            const dormHall = document.querySelector('input[name="dorm_hall"]:checked').value;
+            const mealPlan = parseInt(document.getElementById('stu-meal').value);
+
+            let dormFee = 2400;
+            if (dormHall.includes('West Campus')) dormFee = 1500;
+            if (dormHall.includes('Off-Campus')) dormFee = 0;
+
+            const baseTuition = 3500;
+            const total = baseTuition + dormFee + mealPlan;
+
+            document.getElementById('summary-dorm-fee').innerText = `$${dormFee.toFixed(2)}`;
+            document.getElementById('summary-meal-fee').innerText = `$${mealPlan.toFixed(2)}`;
+            document.getElementById('summary-total-fee').innerText = `$${total.toFixed(2)}`;
+
+            document.querySelectorAll('.active-payment-amount').forEach(el => el.innerText = `$${total.toFixed(2)}`);
+            document.getElementById('summary-subtotal').innerText = `$${total.toFixed(2)}`;
+
+            // Update INR Conversion
+            const inrRate = 83.50;
+            const inrTotal = (total * inrRate).toLocaleString('en-IN');
+            document.getElementById('inr-converted-total').innerText = `₹${inrTotal} INR`;
+        }
+
+        function handleEnrollmentSubmit(e) {
+            e.preventDefault();
+            const name = document.getElementById('stu-name').value;
+            const country = document.getElementById('stu-country').value;
+            const major = document.getElementById('stu-major').value;
+            const dorm = document.querySelector('input[name="dorm_hall"]:checked').value;
+            const totalFee = document.getElementById('summary-total-fee').innerText;
+            const newStuID = document.getElementById('preview-stu-id').innerText;
+
+            // Push to Admin Records
+            adminRecords.unshift({
+                id: newStuID,
+                name: name,
+                country: country,
+                major: major,
+                dorm: dorm,
+                status: "Pending Clearing",
+                fee: totalFee,
+                progress: "0%"
+            });
+
+            renderAdminTable();
+            document.getElementById('payment-summary-id').innerText = newStuID;
+
+            alert(`Registration Submitted successfully for ${name}! Redirecting to International Gateway to process tuition fees.`);
+            switchTab('payments');
+        }
+
+        // PAYMENTS & FX GATEWAY LOGIC
+        function switchPaymentMethod(method) {
+            if (method === 'card') {
+                document.getElementById('payment-box-card').classList.remove('hidden');
+                document.getElementById('payment-box-upi').classList.add('hidden');
+                document.getElementById('pay-method-card').className = 'flex-1 py-2.5 rounded-xl text-xs font-bold bg-indigo-600 text-white shadow-sm flex items-center justify-center gap-2';
+                document.getElementById('pay-method-upi').className = 'flex-1 py-2.5 rounded-xl text-xs font-bold bg-slate-100 text-slate-700 hover:bg-slate-200 flex items-center justify-center gap-2';
+            } else {
+                document.getElementById('payment-box-card').classList.add('hidden');
+                document.getElementById('payment-box-upi').classList.remove('hidden');
+                document.getElementById('pay-method-upi').className = 'flex-1 py-2.5 rounded-xl text-xs font-bold bg-indigo-600 text-white shadow-sm flex items-center justify-center gap-2';
+                document.getElementById('pay-method-card').className = 'flex-1 py-2.5 rounded-xl text-xs font-bold bg-slate-100 text-slate-700 hover:bg-slate-200 flex items-center justify-center gap-2';
+            }
+        }
+
+        function trigger3DSecureFlow() {
+            document.getElementById('modal-3ds').classList.remove('hidden');
+        }
+
+        function close3DSModal() {
+            document.getElementById('modal-3ds').classList.add('hidden');
+        }
+
+        function confirm3DSPayment() {
+            close3DSModal();
+            const stuID = document.getElementById('payment-summary-id').innerText;
+            
+            // Mark paid in admin database
+            const rec = adminRecords.find(r => r.id === stuID);
+            if (rec) rec.status = "Paid";
+
+            renderAdminTable();
+            document.getElementById('payment-status-badge').className = "bg-emerald-100 text-emerald-800 text-xs font-bold px-2 py-0.5 rounded-full";
+            document.getElementById('payment-status-badge').innerText = "Paid & Cleared";
+
+            alert(`Payment Cleared! 3D-Secure transaction authorized for ID: ${stuID}. View record in Admin Data Center.`);
+            switchTab('admin');
+        }
+
+        function generateUPIQRCode() {
+            document.getElementById('upi-qr-box').classList.remove('hidden');
+        }
+
+        function simulateUPIPush() {
+            const vpa = document.getElementById('upi-vpa-input').value;
+            if (!vpa) {
+                alert("Please enter a valid UPI ID (e.g. name@upi)");
+                return;
+            }
+            alert(`UPI Collect request sent to ${vpa}. Please confirm payment on your mobile app.`);
+            confirmUPIPaymentSuccess();
+        }
+
+        function confirmUPIPaymentSuccess() {
+            const stuID = document.getElementById('payment-summary-id').innerText;
+            const rec = adminRecords.find(r => r.id === stuID);
+            if (rec) rec.status = "Paid";
+
+            renderAdminTable();
+            document.getElementById('payment-status-badge').className = "bg-emerald-100 text-emerald-800 text-xs font-bold px-2 py-0.5 rounded-full";
+            document.getElementById('payment-status-badge').innerText = "Paid via UPI";
+
+            alert(`UPI Transaction Authorized for ${stuID}! Synchronized to Admin Database.`);
+            switchTab('admin');
+        }
+
+        // ADMIN DATA CENTER & CSV EXPORT LOGIC
+        function renderAdminTable() {
+            const tbody = document.getElementById('admin-table-body');
+            tbody.innerHTML = '';
+
+            adminRecords.forEach((row, index) => {
+                const tr = document.createElement('tr');
+                tr.className = 'hover:bg-slate-50 transition-colors';
+                tr.innerHTML = `
+                    <td class="p-3.5 font-mono font-bold text-indigo-600">${row.id}</td>
+                    <td class="p-3.5 font-bold text-slate-900">${row.name}</td>
+                    <td class="p-3.5">${row.country}</td>
+                    <td class="p-3.5">${row.major}</td>
+                    <td class="p-3.5 text-slate-600">${row.dorm}</td>
+                    <td class="p-3.5">
+                        <span class="px-2.5 py-1 rounded-full text-xs font-bold ${row.status === 'Paid' ? 'bg-emerald-100 text-emerald-800' : 'bg-amber-100 text-amber-800'}">
+                            ${row.status}
+                        </span>
+                    </td>
+                    <td class="p-3.5 font-mono font-bold">${row.fee}</td>
+                    <td class="p-3.5">
+                        <div class="flex items-center gap-2">
+                            <div class="w-16 bg-slate-200 h-1.5 rounded-full overflow-hidden">
+                                <div class="bg-indigo-600 h-full" style="width: ${row.progress}"></div>
+                            </div>
+                            <span class="text-xs font-mono">${row.progress}</span>
+                        </div>
+                    </td>
+                    <td class="p-3.5 text-right">
+                        <button onclick="deleteRecord(${index})" class="text-rose-500 hover:text-rose-700 p-1"><i class="fa-solid fa-trash-can"></i></button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+
+            document.getElementById('admin-row-count').innerText = `Total Records: ${adminRecords.length}`;
+        }
+
+        function filterAdminTable() {
+            const query = document.getElementById('admin-search-input').value.toLowerCase();
+            const rows = document.querySelectorAll('#admin-table-body tr');
+            rows.forEach(row => {
+                const text = row.innerText.toLowerCase();
+                row.style.display = text.includes(query) ? '' : 'none';
+            });
+        }
+
+        function addNewMockRecord() {
+            const randomNum = Math.floor(1000 + Math.random() * 9000);
+            adminRecords.unshift({
+                id: `STU-2026-${randomNum}`,
+                name: "David Kim",
+                country: "Canada",
+                major: "Global Business",
+                dorm: "West Campus (Shared)",
+                status: "Paid",
+                fee: "$5,000.00",
+                progress: "25%"
+            });
+            renderAdminTable();
+        }
+
+        function deleteRecord(index) {
+            if (confirm("Are you sure you want to delete this student entry?")) {
+                adminRecords.splice(index, 1);
+                renderAdminTable();
+            }
+        }
+
+        // RAW CSV / EXCEL EXPORTER FUNCTION
+        function exportTableToCSV() {
+            let csvContent = "data:text/csv;charset=utf-8,";
+            
+            // Header Row
+            const headers = ["Student ID", "Full Name", "Country", "Major", "Housing Dorm", "Payment Status", "Tuition Fee", "Course Progress"];
+            csvContent += headers.join(",") + "\r\n";
+
+            // Data Rows
+            adminRecords.forEach(row => {
+                const formattedRow = [
+                    `"${row.id}"`,
+                    `"${row.name}"`,
+                    `"${row.country}"`,
+                    `"${row.major}"`,
+                    `"${row.dorm}"`,
+                    `"${row.status}"`,
+                    `"${row.fee}"`,
+                    `"${row.progress}"`
+                ];
+                csvContent += formattedRow.join(",") + "\r\n";
+            });
+
+            // Trigger File Download
+            const encodedUri = encodeURI(csvContent);
+            const link = document.createElement("a");
+            link.setAttribute("href", encodedUri);
+            link.setAttribute("download", `EduPortal_Global_Student_Records_${new Date().toISOString().slice(0,10)}.csv`);
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        // INITIAL LOAD
+        window.onload = function() {
+            renderCoursesGrid();
+            selectCourse(0);
+            renderAdminTable();
+            updateFeeCalculation();
+        };
+    </script>
+</body>
+</html>
